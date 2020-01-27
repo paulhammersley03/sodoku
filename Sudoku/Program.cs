@@ -25,6 +25,7 @@ namespace Sudoku
             AddExistingNumbers(grid, out rowList, out colList);
             FillInEmptyNumbers(grid, rowList, colList);
             PrintResult(grid);
+            Console.ReadLine();
         }
 
         private static void PrintResult(int[,] grid)
@@ -34,17 +35,24 @@ namespace Sudoku
 
             for (int i = 0; i < 81; i++)
             {
-                while (i <= 81)
+                try
                 {
-                    Console.Write(grid[w, x] + " ");
-                    x += 1;
-
-                    if (x == 8)
+                    while (i < 81)
                     {
-                        Console.Write(grid[w, x] + "\n");
-                        w += 1;
-                        x = 0;
+                        Console.Write(grid[w, x] + " ");
+                        x += 1;
+
+                        if (x == 8)
+                        {
+                            Console.Write(grid[w, x] + "\n");
+                            w += 1;
+                            x = 0;
+                        }
                     }
+                }
+                catch
+                {
+                    break;
                 }
             }          
         }
@@ -55,11 +63,14 @@ namespace Sudoku
             var p = 0;
             var q = 0;
 
-            foreach (var item in grid)
+            for (int i = 0; i < 81; i++)           
+
+            //foreach (var item in grid)
             {
                 var randomNumber = random.Next(1, 10);
 
                 if (grid[p, q] == 0 && !rowList[p].Contains(randomNumber) && !colList[q].Contains(randomNumber))
+                //&& !rowList[p].Contains(randomNumber) && !colList[q].Contains(randomNumber)
                 {
                     grid[p, q] = randomNumber;
                     rowList[p].Add(randomNumber);
@@ -70,7 +81,7 @@ namespace Sudoku
                 {
                     q += 1;
                     continue;
-                }
+                }                
 
                 if (q > 8)
                 {
