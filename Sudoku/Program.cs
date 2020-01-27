@@ -24,23 +24,29 @@ namespace Sudoku
             List<List<int>> rowList, colList;
             AddExistingNumbers(grid, out rowList, out colList);
             FillInEmptyNumbers(grid, rowList, colList);
-            var x = 0;
-            x = PrintResult(grid, x);
+            PrintResult(grid);
         }
 
-        private static int PrintResult(int[,] grid, int x)
+        private static void PrintResult(int[,] grid)
         {
-            foreach (var item in grid)
-            {
-                Console.Write(item + " ");
-                x += 1;
-                if (x % 9 == 0)
-                {
-                    Console.Write(item + "\n");
-                }
-            }
+            var w = 0;
+            var x = 0;
 
-            return x;
+            for (int i = 0; i < 81; i++)
+            {
+                while (i <= 81)
+                {
+                    Console.Write(grid[w, x] + " ");
+                    x += 1;
+
+                    if (x == 8)
+                    {
+                        Console.Write(grid[w, x] + "\n");
+                        w += 1;
+                        x = 0;
+                    }
+                }
+            }          
         }
 
         private static void FillInEmptyNumbers(int[,] grid, List<List<int>> rowList, List<List<int>> colList)
@@ -51,7 +57,7 @@ namespace Sudoku
 
             foreach (var item in grid)
             {
-                var randomNumber = random.Next(1, 9);
+                var randomNumber = random.Next(1, 10);
 
                 if (grid[p, q] == 0 && !rowList[p].Contains(randomNumber) && !colList[q].Contains(randomNumber))
                 {
@@ -62,10 +68,11 @@ namespace Sudoku
                 }
                 else if(grid[p, q] > 0)
                 {
+                    q += 1;
                     continue;
                 }
 
-                if (q == 8)
+                if (q > 8)
                 {
                     p += 1;
                     q = 0;
